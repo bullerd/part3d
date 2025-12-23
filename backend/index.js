@@ -48,7 +48,6 @@ app.get("/api/notes/:id", async (request, response, next) => {
 });
 
 app.delete("/api/notes/:id", async (request, response, next) => {
-  console.log("hereeeeee")
   const id = request.params.id;
   try {
     const result = await Note.findByIdAndDelete(request.params.id);
