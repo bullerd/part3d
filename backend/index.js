@@ -48,6 +48,7 @@ app.get("/api/notes/:id", async (request, response, next) => {
 });
 
 app.delete("/api/notes/:id", async (request, response, next) => {
+  console.log("hereeeeee")
   const id = request.params.id;
   try {
     const result = await Note.findByIdAndDelete(request.params.id);
@@ -116,9 +117,15 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === "CastError") {
     return response.status(400).json({ error: "malformatted id" });
   } else if (error.name === "ValidationError") {
-    return response.status(400).json({ error: error.message });
+    const details = Object.fromEntries(
+      Object.entries(error.errors).map(([field, err]) => [field, err.message])
+    );
+    return response.status(400).json({
+      error: "validation error",
+      details,
+    });
   }
-
+  
   response.status(500).json({ error: "internal server error" });
 };
 
