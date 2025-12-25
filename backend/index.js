@@ -124,7 +124,7 @@ const errorHandler = (error, request, response, next) => {
       details,
     });
   }
-  
+
   response.status(500).json({ error: "internal server error" });
 };
 
